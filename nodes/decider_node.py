@@ -2,6 +2,7 @@ from schemas.decider_output import DeciderOutput
 from services.structured_llm_service import structured_llm
 from prompts.decider_prompt import DECIDER_PROMPT
 from state.agent_state import AgentState
+from langchain.messages import HumanMessage
 
 
 def decider_node(state: AgentState) -> dict:
@@ -12,4 +13,7 @@ def decider_node(state: AgentState) -> dict:
     
     response = decider_llm.invoke(prompt)
     
-    return {'decider_output': response}
+    return {
+        'decider_output': response,
+        'messages': [HumanMessage(content=user_input.get('query', ''))]
+        }

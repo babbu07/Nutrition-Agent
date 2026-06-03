@@ -1,13 +1,8 @@
-import os
-from dotenv import load_dotenv
-from langchain_huggingface import HuggingFaceEndpoint, ChatHuggingFace
+from langchain_ollama import ChatOllama
 
-load_dotenv()
-huggingface_api_key = os.getenv('HUGGINGFACE_API_KEY')
-
-model = HuggingFaceEndpoint(
-    repo_id="Qwen/Qwen2.5-72B-Instruct",
-    huggingfacehub_api_token=huggingface_api_key
+# Initialize ChatOllama pointing to your local qwen instance
+llm = ChatOllama(
+    model="qwen2.5:3b",
+    temperature=0,               # 0 ensures strict, reliable tool choices
+    base_url="http://localhost:11434"
 )
-
-llm = ChatHuggingFace(llm=model)

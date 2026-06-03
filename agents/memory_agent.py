@@ -6,7 +6,7 @@ class MemoryAgent(BaseAgent):
     name = "memory_agent"
     description = "Handles User Memory and Retrieve Memory"
 
-    async def execute(self, user_query: str, task: str, agent_input: dict) -> AgentOutput:
+    async def execute(self, user_query: str, task: str, agent_input: dict, state: dict) -> AgentOutput:
         return AgentOutput(
             agent=self.name,
             success=True,

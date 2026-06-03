@@ -4,7 +4,7 @@ from agents.agent_registry import AGENTS
 
 class SupervisorAgent:
 
-    async def delegate(self, agent_name, query, task, agent_input):
+    async def delegate(self, agent_name, query, task, agent_input, state):
 
         agent = AGENTS.get(agent_name)
 
@@ -20,7 +20,7 @@ class SupervisorAgent:
             }
 
         try:
-            result = await agent.execute(user_query=query, task=task, agent_input=agent_input)
+            result = await agent.execute(user_query=query, task=task, agent_input=agent_input, state=state)
             return result
 
         except Exception as e:
@@ -31,16 +31,17 @@ class SupervisorAgent:
                 "metadata": {"error": True}
             }
         
-    async def delegate_parallel(self, tasks):
+    async def delegate_parallel(self, tasks, state):
 
         coroutines = []
         for item in tasks:
 
             coroutine = self.delegate(
-                agent_name=item.get("agent_name"),
-                query=item.get("query"),
-                task=item.get("task"),
-                agent_input=item.get("agent_input", {})
+                agent_name=item.agent_name,
+                query=item.query,
+                task=item.task,
+                agent_input=item.agent_input,
+                state=state
             )
 
             coroutines.append(coroutine)

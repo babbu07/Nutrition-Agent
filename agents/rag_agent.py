@@ -7,7 +7,7 @@ class RAGAgent(BaseAgent):
     name = "rag_agent"
     description = "Handles knowledge retrieval"
 
-    async def execute(self, user_query: str, task: str, agent_input: dict) -> AgentOutput:
+    async def execute(self, user_query: str, task: str, agent_input: dict, state: dict) -> AgentOutput:
         return AgentOutput(
             agent=self.name,
             success=True,

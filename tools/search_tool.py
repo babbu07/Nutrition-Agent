@@ -9,13 +9,14 @@ tavily_api_key = os.getenv('TAVILY_API_KEY')
 
        
 @tool
-def search_tool(query: str) -> ToolOutput:
+def search_tool(query: str, max_results: int = 3):
+    """Searches the web for the given query and returns the top results."""
     client = TavilyClient(api_key=tavily_api_key)
-    result = client.search(query=query, max_results=3)
+    result = client.search(query=query, max_results=max_results)
         
     formatted = []
     for r in result['results']:
         formatted.append(f"{r['title']}: {r['content']}")
     
-    return ToolOutput(success=True, result="\n".join(formatted))
+    return "\n".join(formatted)
      

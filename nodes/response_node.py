@@ -1,4 +1,5 @@
 from state.agent_state import AgentState
+from langchain.messages import AIMessage, HumanMessage
 from services.chat_llm_service import llm
 from prompts.response_prompt import RESPONSE_PROMPT
 
@@ -9,4 +10,9 @@ def response_node(state: AgentState) -> dict:
     prompt = RESPONSE_PROMPT + f"\n\nUser Input:\n{user_input}\n\nSupervisor Output:\n{supervisor_output}"
     response = llm.invoke(prompt)
     
-    return {"response": response}
+    return {
+        "response": response,
+        'messages': [
+            AIMessage(content=response.content)
+        ]
+    }
